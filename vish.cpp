@@ -36,12 +36,21 @@ int main(int argc, char **argv)
                 if(viWrite(vi, reinterpret_cast<ViPBuf>(const_cast<char *>(line.data())), line.size(), &count) != VI_SUCCESS)
                         std::cerr << "E: Cannot write to resource" << std::endl;
 
-                ViChar buffer[256];
-                do {
-                        viRead(vi, reinterpret_cast<ViPBuf>(buffer), sizeof buffer, &count);
-                        std::cout << std::string(buffer, count);
-                } while(count == sizeof buffer);
-                std::cout << std::endl;
+                for(;;)
+                {
+                        ViUInt16 status;
+                        if(viReadSTB(vi, &status) != VI_SUCCESS)
+                                std::cerr << "E: Cannot read status" << std::endl;
+
+                        if(status & 16)
+                        {
+                                ViChar buffer[256];
+                                viRead(vi, reinterpret_cast<ViPBuf>(buffer), sizeof buffer, &count);
+                                std::cout << std::string(buffer, count);
+                        }
+                        else
+                                break;
+                }
         }
 
         viClose(vi);
