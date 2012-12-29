@@ -44,8 +44,9 @@ int main(int argc, char **argv)
 
                         if(status & 16)
                         {
-                                ViChar buffer[256];
-                                viRead(vi, reinterpret_cast<ViPBuf>(buffer), sizeof buffer, &count);
+                                ViChar buffer[256000];
+                                if(viRead(vi, reinterpret_cast<ViPBuf>(buffer), sizeof buffer, &count) != VI_SUCCESS)
+                                        break;
                                 std::cout << std::string(buffer, count);
                         }
                         else
