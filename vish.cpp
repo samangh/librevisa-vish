@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+#include <cstring>
+
 int main(int argc, char **argv)
 {
         if(argc != 2)
@@ -30,6 +32,21 @@ int main(int argc, char **argv)
                 return 1;
         }
 
+        bool rigol_stb_workaround = false;
+
+        {
+                char buffer[256] = "*IDN?";
+                ViUInt32 count;
+                if(viWrite(vi, reinterpret_cast<ViPBuf>(buffer), 5, &count) != VI_SUCCESS ||
+                        viRead(vi, reinterpret_cast<ViPBuf>(buffer), sizeof buffer, &count) != VI_SUCCESS)
+                {
+                        std::cerr << "E: Cannot query device type" << std::endl;
+                        return 1;
+                }
+                if(count >= 5 && !strncmp(buffer, "Rigol", 5))
+                        rigol_stb_workaround = true;
+        }
+
         for(std::string line; getline(std::cin, line) && line.size();)
         {
                 ViUInt32 count;
@@ -39,10 +56,10 @@ int main(int argc, char **argv)
                 for(;;)
                 {
                         ViUInt16 status;
-                        if(viReadSTB(vi, &status) != VI_SUCCESS)
+                        if(!rigol_stb_workaround && viReadSTB(vi, &status) != VI_SUCCESS)
                                 std::cerr << "E: Cannot read status" << std::endl;
 
-                        if(status & 16)
+                        if(rigol_stb_workaround || status & 16)
                         {
                                 ViChar buffer[256000];
                                 if(viRead(vi, reinterpret_cast<ViPBuf>(buffer), sizeof buffer, &count) != VI_SUCCESS)
