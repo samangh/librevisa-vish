@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.67])
-AC_INIT([vish], [0.0.20121220], [Simon.Richter@hogyros.de])
+AC_INIT([vish], [0.0.20121230], [Simon.Richter@hogyros.de])
 AM_INIT_AUTOMAKE([1.10 foreign])
 AC_CONFIG_HEADER([config.h])
 AC_CONFIG_FILES([Makefile])
