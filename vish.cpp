@@ -24,6 +24,23 @@ int main(int argc, char **argv)
                 return 1;
         }
 
+        if(!strcmp(argv[1], "--scan"))
+        {
+                ViFindList fl;
+                ViUInt32 count;
+                ViChar rsrc[256];
+                ViStatus rc = viFindRsrc(rmgr, const_cast<ViChar *>("?*"), &fl, &count, rsrc);
+                while(rc == VI_SUCCESS)
+                {
+                        std::cout << rsrc << std::endl;
+                        rc = viFindNext(fl, rsrc);
+                }
+                std::cerr << "I: " << count << " devices found." << std::endl;
+                viClose(fl);
+                viClose(rmgr);
+                return 0;
+        }
+
         ViSession vi;
 
         if(viOpen(rmgr, argv[1], VI_NO_LOCK, 0, &vi) != VI_SUCCESS)
