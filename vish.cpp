@@ -12,7 +12,8 @@ int main(int argc, char **argv)
 {
         if(argc != 2 || !strcmp(argv[1], "--help") || !strcmp(argv[1], "-h"))
         {
-                std::cerr << "Usage: " << argv[0] << " VISA-RESOURCE" << std::endl;
+                std::cout << "Usage: " << argv[0] << " VISA-RESOURCE" << std::endl
+                        << "       " << argv[0] << " --scan" << std::endl;
                 return (argc != 2);
         }
 
