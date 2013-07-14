@@ -16,6 +16,11 @@ int main(int argc, char **argv)
                         << "       " << argv[0] << " --scan" << std::endl;
                 return (argc != 2);
         }
+        else if(!strcmp(argv[1], "--version") || !strcmp(argv[1], "-V"))
+        {
+                std::cout << PACKAGE " " VERSION << std::endl;
+                return 0;
+        }
 
         ViSession rmgr;
 
