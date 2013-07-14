@@ -1,0 +1,31 @@
+.TH VISH 1 "2013-07-14"
+.SH NAME
+vish \- VISA commandline shell
+.SH SYNOPSIS
+.B vish
+.RI [ options ] " resource"
+.br
+.B vish \-\-scan
+.SH DESCRIPTION
+The
+.B vish
+command allows users to connect to and scan for VISA compatible test and
+measurement equipment.
+.PP
+After connecting to a device, the communications channel is connected to
+the standard input and output streams.
+.SH OPTIONS
+These programs follow the usual GNU command line syntax, with long
+options starting with two dashes (`-').
+A summary of options is included below.
+.TP
+.B \-h, \-\-help
+Show summary of options.
+.TP
+.B \-V, \-\-version
+Show version of program.
+.TP
+.B \-\-scan
+Scan for accessible devices.
+.SH SEE ALSO
+.BR visa (7)
