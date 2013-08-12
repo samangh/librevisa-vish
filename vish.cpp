@@ -82,6 +82,13 @@ int main(int argc, char **argv)
                 if(viWrite(vi, reinterpret_cast<ViPBuf>(const_cast<char *>(line.data())), line.size(), &count) != VI_SUCCESS)
                         std::cerr << "E: Cannot write to resource" << std::endl;
 
+                if(!rigol_stb_workaround)
+                {
+                        ViEventType event;
+                        if(viWaitOnEvent(vi, VI_ALL_ENABLED_EVENTS, 5000, &event, 0) != VI_SUCCESS)
+                                std::cerr << "E: Cannot wait for events" << std::endl;
+                }
+
                 for(;;)
                 {
                         ViUInt16 status;
