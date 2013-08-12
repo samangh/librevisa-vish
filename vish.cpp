@@ -70,6 +70,12 @@ int main(int argc, char **argv)
                         rigol_stb_workaround = true;
         }
 
+        if(viEnableEvent(vi, VI_EVENT_SERVICE_REQ, VI_QUEUE, VI_NULL) != VI_SUCCESS)
+        {
+                std::cerr << "E: Cannot enable SRQ events" << std::endl;
+                return 1;
+        }
+
         for(std::string line; getline(std::cin, line) && line.size();)
         {
                 ViUInt32 count;
